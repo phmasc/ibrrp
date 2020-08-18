@@ -1,11 +1,17 @@
 import React from 'react';
-import './App.css';
+import { BrowserRouter, Route } from 'react-router-dom';
+
+
+import Home from './page/Home';
+import Subscribe from './page/Subscribe';
+
 
 function App() {
   return (
-    <div className="App">
-      <p>Hello World</p>
-    </div >
+    <BrowserRouter>
+      <Route path="/" exact component={Home} />
+      <Route path="/subscribe" component={Subscribe} />
+    </BrowserRouter>
   );
 }
 

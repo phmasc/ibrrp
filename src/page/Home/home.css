@@ -1,0 +1,47 @@
+#page-home {
+    background: var(--color-white-primary);
+    width: 100vw;
+    height: 100%;
+    margin-top: 5rem;
+    align-self: baseline;
+}
+
+#page-home .diretrizes{
+    margin: 0 1.8rem;
+}
+
+#page-home .diretrizes ul {
+    background: var(--color-blue-primary);
+    border-radius: 0.8rem;
+    text-align: justify;
+    list-style: none;
+}
+
+#page-home .diretrizes ul li{
+    margin-bottom: 0.2rem;
+    padding: 0.6rem;
+
+}
+
+#page-home .diretrizes ul li::before{
+    content: "\2022";
+    font-weight: bold;
+    display: inline-block; 
+    width: 1rem;
+    margin-right: 1rem;
+}
+
+#page-home .diretrizes ul > li:first-child{
+    color: var(--color-orange-dark);
+    font: bold 1.6rem Roboto;
+}
+
+@media (min-width: 800px){
+    #page-home .diretrizes{
+        display: flex;
+        flex-direction: row;
+    }
+    #page-home .diretrizes .list-cultos{
+        margin-left: 0.4rem;
+    }
+}

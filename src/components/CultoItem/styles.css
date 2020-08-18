@@ -1,0 +1,58 @@
+.culto-item{
+    background: var(--color-violet-dark);
+    position: relative;
+    padding: 0.2rem 0.8rem;
+    margin-top: 0.8rem;
+    margin-bottom: 0.8rem;
+    border-radius: 0.8rem;
+    min-height: 10rem;
+    color: var(--color-white-lighter);
+}
+
+.culto-item h2 {
+    color: var(--color-orange-dark);
+}
+
+.culto-item strong {
+    text-decoration-line: underline;
+}
+
+.culto-item .description {
+    color: var(--color-gray-lighter);
+    max-width: 25rem;
+}
+
+.culto-item button{
+    background:var(--color-violet-primary);
+    padding: 0.4rem;
+    margin-right: 0.3rem;
+    position: absolute;
+    min-height: 5rem;
+    right: 0;
+    top: 3rem;
+    height: 5rem;
+    max-width: 10rem;
+
+    border-radius: 0.8rem;
+}
+
+.culto-item button strong{
+    color: var(--color-white-primary)
+}
+
+.culto-item button p{
+    color: var(--color-blue-primary);
+}
+
+@media(min-width: 800px){
+    .culto-item{
+        width: 40%;
+        min-width: 400px;
+        max-width: 500px;
+    }
+    .culto-item .description {
+        color: var(--color-gray-lighter);
+        width: 80%;
+        max-width: 390px;
+    }
+}

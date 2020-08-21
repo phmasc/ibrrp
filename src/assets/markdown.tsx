@@ -13,4 +13,33 @@ export const diretrizes = `
  - O uso de máscara e o respeito ao distanciamento social é obrigatório durante a sua estadia dentro da área da igreja. Contamos com a sua colaboração.
 `
 
+export const data = [{
+    id: '20200822N',
+    name: 'Conciência Bíblica: A Igreja',
+    datatime: '2020-08-16 20hs',
+    vagas: 25,
+    description: 'Identidade com Pastor Almir T.'
+},
+{
+    id: '20200823N',
+    name: 'Conciência Bíblica: A Igreja',
+    datatime: '2020-08-23 20hs',
+    vagas: 32,
+    description: 'Contemporaneidade com Pastor Marcos P.'
+},
+{
+    id: '20200823M',
+    name: 'Conciência Bíblica: A Igreja - EBD',
+    datatime: '2020-08-24 09hs',
+    vagas: 40,
+    description: 'Com Aulão sobre Eclesiologia, com os nossos pastores'
+},
+{
+    id: '20200824N',
+    name: 'Conciência Bíblica: A Igreja',
+    datatime: '2020-08-24 19hs',
+    vagas: 40,
+    description: 'Mutualidade com Pastor Wagner Amaral.'
+}]
+
 export default diretrizes

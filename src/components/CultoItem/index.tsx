@@ -1,6 +1,7 @@
 import React from 'react'
 
 import './styles.css'
+import { useHistory } from 'react-router-dom'
 
 export interface Iculto {
     id: string,
@@ -16,6 +17,11 @@ export interface CultoProps {
 }
 
 const Culto: React.FC<CultoProps> = ({ culto }) => {
+    const history = useHistory()
+    function HandleClick() {
+        history.push(`/subscribe/${culto.id}`)
+    }
+
     return (
         <article className="culto-item">
             <header>
@@ -24,7 +30,7 @@ const Culto: React.FC<CultoProps> = ({ culto }) => {
             </header>
             <p className='description'>{culto.description}</p>
 
-            <button onClick={() => { alert(`Culto selecionado foi ${culto.description}`) }}>
+            <button onClick={HandleClick}>
                 <strong>Inscreva-se</strong>
                 <p>{culto.vagas} vagas</p>
             </button>

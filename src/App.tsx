@@ -10,9 +10,11 @@ function App() {
   return (
     <BrowserRouter>
       <Route path="/" exact component={Home} />
-      <Route path="/subscribe" component={Subscribe} />
+      <Route path="/subscribe/:cultoId" component={Subscribe} />
     </BrowserRouter>
   );
 }
 
 export default App;
+
+// https://github.com/sinval-albuquerque/proffyProject/blob/master/web/src/pages/TeacherList/index.tsx

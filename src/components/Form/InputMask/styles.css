@@ -1,0 +1,11 @@
+#input-container{
+    margin-bottom: 0.2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+#input-container input{
+    border-radius: 0.4rem;
+    height: 3.5rem;
+    padding-left: 0.5rem;
+}

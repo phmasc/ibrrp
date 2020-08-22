@@ -24,7 +24,7 @@ function Subscribe() {
     const { cultoId } = useParams()
     const [culto, setCulto] = useState<Iculto>();
     const [complemento, setComplemento] = useState(false)
-    const [questions, setQuestions] = useState(true)
+    const [questions, setQuestions] = useState(false)
 
     const checkboxOptions: CheckboxOption[] = [
         { id: 'true', value: 'true', label: 'Sim' },

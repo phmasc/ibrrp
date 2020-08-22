@@ -7,6 +7,9 @@
 }
 
 :root {
+  --menu-height-size-larger: 110px;
+  --menu-height-size-small: 90px;
+
   --color-white-lighter: #FFFFFF;
   --color-white-primary: #EAEAEA;
   --color-white-medium: #B1B2B7;

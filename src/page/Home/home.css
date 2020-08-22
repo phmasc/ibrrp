@@ -2,7 +2,7 @@
     background: var(--color-white-primary);
     width: 100vw;
     height: 100%;
-    margin-top: 5rem;
+    margin-top: calc(var(--menu-height-size-larger) - 10px);
     align-self: baseline;
 }
 
@@ -36,7 +36,15 @@
     font: bold 1.6rem Roboto;
 }
 
+#page-home  .diretrizes .list-cultos .culto-item:last-child{
+    margin-bottom: 4.5rem;
+}
+
 @media (min-width: 800px){
+    #page-home{
+        margin-top: calc(var(--menu-height-size-small) + 30px);
+    }
+
     #page-home .diretrizes{
         display: flex;
         flex-direction: row;

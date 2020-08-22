@@ -1,0 +1,28 @@
+#radio-container{
+    margin: 0.5rem auto;
+    display: flex;
+    flex-direction: column;
+    padding-left: 1.5rem;
+}
+
+#radio-container .input-label{
+    border-top: 1px solid var(--color-blue-medium);
+}
+
+#radio-container .input-radio{
+    display: flex;
+    padding-top: 0.2rem;
+    border-bottom: 1px solid var(--color-blue-medium);
+    margin-bottom: 0.1rem;
+    display: flex;
+}
+
+#radio-container .radio-option{
+    padding-left: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+#radio-container .radio-option{
+    font-size: larger;
+}

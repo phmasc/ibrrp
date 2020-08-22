@@ -23,25 +23,6 @@ const Menu: React.FC<MenuProps> = ({ title, description, textButton, onClickText
                 <h1>{title}</h1>
                 <h3>{description}</h3>
             </div>
-            {visibility &&
-                <Link className="ButtonLink" to={() => {
-                    console.log(onClickText)
-                    if (onClickText === '') {
-                        console.log('dentro do none')
-                        return ('')
-                    }
-                    if (onClickText === 'subscribe') {
-                        return ('/subscribe')
-                    }
-                    if (onClickText === 'home') {
-                        return ('/')
-                    }
-                    return ('')
-                }
-                }>
-                    <p>{textButton}</p>
-                </Link>
-            }
         </nav>
     )
 }

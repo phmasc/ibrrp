@@ -22,7 +22,7 @@ function Home() {
         <div id="page-home" >
             <Menu
                 title="CULTOS PRESENCIAIS"
-                description="LEIA COM ATENÇÃO AS INSTRUÇÕES ABAIXO."
+                description="LEIA COM ATENÇÃO AS INSTRUÇÕES."
                 textButton="Increva-se para o culto presencial aqui" onClickText='subscribe'
             />
             <div className="diretrizes">

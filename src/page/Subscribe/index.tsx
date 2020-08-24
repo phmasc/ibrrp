@@ -41,16 +41,15 @@ function Subscribe() {
         { id: "3", question: "3 - VOCÊ APRESENTOU CORIZA NOS ÚLTIMOS 14 DIAS?" },
         { id: "4", question: "4 - VOCÊ APRESENTOU DIARREIA E VÔMITO NAS ÚLTIMAS DUAS SEMANAS?" },
         { id: "5", question: "5 - VOCÊ TEVE ALGUM OUTRO SINTOMA FORA DE SUA ROTINA NAS ÚLTIMAS DUAS SEMANAS?" },
-        { id: "6", question: "6 - VOCÊ TEM ALGUMA DOENÇA CRÔNICA?" },
-        { id: "7", question: "7 - VOCÊ É HIPERTENSO?" },
+        { id: "6", question: "6 - VOCÊ FAZ PARTE DE GRUPO DE RISCO? (Diabetes, Hipertensão, Problemas Cardiológicos, Gestante, entre outros)" },
+        { id: "7", question: "7 - VOCÊ TRABALHA NA LINHA DE FRENTE DO ENFRENTAMENTO DO COVID-19 (CORONAVÍRUS)? " },
         { id: "8", question: "8 - VOCÊ TEM DIABETES?" },
         { id: "9", question: "9 - VOCÊ TEM PROBLEMAS CARDIOLÓGICOS?" },
-        { id: "10", question: "10 - VOCÊ FAZ PARTE DE GRUPO DE RISCO?" },
-        { id: "11", question: "11 - VOCÊ TEM MAIS DE 60 ANOS?" },
-        { id: "12", question: "12 - VOCÊ ESTÁ COM A COVID-19 (CORONAVÍRUS)?" },
-        { id: "13", question: "13 - ALGUÉM DE SUA FAMÍLIA ESTÁ COM O CORONAVÍRUS?" },
-        { id: "14", question: "14 - TEVE CONTATO COM ALGUÉM QUE ESTÁ COM A COVID-19 NOS ÚLTIMOS 14 DIAS?" },
-        { id: "15", question: "15 - ESTÁ CIENTE QUE CASO ALGUMA DAS PERGUNTAS ACIMA SEJA RESPONDIDA POSITIVAMENTE VOCÊ NÃO PODERÁ TER ACESSO AOS CULTOS PRESENCIAS?" }
+        { id: "10", question: "10 - VOCÊ TEM MENOS DE 12 ANOU OU MAIS DE 59 ANOS?" },
+        { id: "11", question: "11 - VOCÊ ESTÁ COM A COVID-19 (CORONAVÍRUS)?" },
+        { id: "12", question: "12 - ALGUÉM DE SUA FAMÍLIA ESTÁ COM O CORONAVÍRUS?" },
+        { id: "13", question: "13 - TEVE CONTATO COM ALGUÉM QUE ESTÁ COM A COVID-19 NOS ÚLTIMOS 14 DIAS?" },
+        { id: "14", question: "14 - ESTÁ CIENTE QUE CASO ALGUMA DAS PERGUNTAS ACIMA SEJA RESPONDIDA POSITIVAMENTE VOCÊ NÃO PODERÁ TER ACESSO AOS CULTOS PRESENCIAS?" }
     ]
 
     const formRefMain = useRef<FormHandles>(null);
@@ -102,7 +101,6 @@ function Subscribe() {
         reset()
         setComplemento(false)
         setQuestions(false)
-
     };
 
     function HandleSave() {
@@ -194,8 +192,7 @@ function Subscribe() {
                                     <RadioInput name={perguntas[10].id} options={checkboxOptions} label={perguntas[10].question} />
                                     <RadioInput name={perguntas[11].id} options={checkboxOptions} label={perguntas[11].question} />
                                     <RadioInput name={perguntas[12].id} options={checkboxOptions} label={perguntas[12].question} />
-                                    <RadioInput name={perguntas[13].id} options={checkboxOptions} label={perguntas[13].question} />
-                                    <RadioInput name={perguntas[14].id} options={checkboxOptions15} label={perguntas[14].question} />
+                                    <RadioInput name={perguntas[13].id} options={checkboxOptions15} label={perguntas[13].question} />
                                 </Scope>
                             </div>
                             <button type="submit">Finalizar</button>

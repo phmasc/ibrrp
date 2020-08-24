@@ -64,15 +64,26 @@ function Subscribe() {
     }, [cultoId]);
 
     const handleSubmitMain: SubmitHandler<FormData> = (data, { reset }) => {
-        console.log({ dados: data, complemento: complemento });
+        console.log({ complemento, questions });
 
-        if (!complemento) { //Buscar
-            //verificar se beneficiario existe
-            //caso exista... segue...
+        if (!complemento) {
+            if (questions) {
+                reset()
+                setComplemento(false)
+                setQuestions(false)
+            } else {
+                //Buscar
+                //verificar se beneficiario existe
+                //caso exista... segue...
 
-            //rota se não existir
+                //rota se não existir
+                setComplemento(!complemento)
+            }
 
-            setComplemento(!complemento)
+            // {{!complemento
+            //     ? questions ? <p>Cancelar</p> : <p>Buscar</p>
+            //     : <p>Cancelar</p>}}
+
         } else { //Cancelar || Finalizar
             if (questions) { //Questionário aberto, verificar e finalizar
                 reset()
@@ -80,6 +91,7 @@ function Subscribe() {
             } else {
                 reset()
                 setComplemento(false)
+                setQuestions(false)
             }
         }
     };
@@ -110,6 +122,7 @@ function Subscribe() {
         console.log({ dataSave })
         setComplemento(false)
         setQuestions(true)
+        console.log({ complemento, questions });
     }
 
 
@@ -145,7 +158,7 @@ function Subscribe() {
                         />
                         <button type="submit">
                             {!complemento
-                                ? questions ? <p>Cancela</p> : <p>Buscar</p>
+                                ? questions ? <p>Cancelar</p> : <p>Buscar</p>
                                 : <p>Cancelar</p>}
                         </button>
                     </div>

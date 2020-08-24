@@ -99,22 +99,10 @@ function Subscribe() {
     const handleSubmitQuestion: SubmitHandler<FormData> = (data, { reset }) => {
         console.log({ dados: data, complemento: complemento });
 
-        if (!complemento) { //Buscar
-            //verificar se beneficiario existe
-            //caso exista... segue...
+        reset()
+        setComplemento(false)
+        setQuestions(false)
 
-            //rota se não existir
-
-            setComplemento(!complemento)
-        } else { //Cancelar || Finalizar
-            if (questions) { //Questionário aberto, verificar e finalizar
-                reset()
-
-            } else {
-                reset()
-                setComplemento(false)
-            }
-        }
     };
 
     function HandleSave() {

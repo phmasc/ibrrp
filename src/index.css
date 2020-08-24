@@ -58,7 +58,7 @@ body{
 }
 
 body, input, button, textarea {
-  font: 500 1.6rem Roboto;
+  font: 400 1.6rem Roboto;
   color: var(--black);
 }
 

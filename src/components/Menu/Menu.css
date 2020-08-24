@@ -59,3 +59,16 @@
     font-size: medium;
   }
 }
+
+@media(max-width: 500px){
+  .Menu {
+    background: tomato;
+  }
+  .Menu .header-text h1{
+    font-size: small;
+  }
+  
+  .Menu .header-text h3{
+    font-size: smaller;
+  }
+}

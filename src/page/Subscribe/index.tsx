@@ -4,13 +4,16 @@ import { useParams } from 'react-router-dom';
 import { Form } from '@unform/web'
 import { SubmitHandler, FormHandles, Scope } from '@unform/core';
 
-import { data } from '../../assets/markdown';
 import { Iculto } from '../../components/CultoItem';
 
 import Menu from '../../components/Menu';
 import Input from '../../components/Form/Input';
 import InputMask from '../../components/Form/InputMask';
 import RadioInput from '../../components/Form/RadioInput';
+import Modal from '../../components/Modal';
+
+import api from '../../service/api';
+import calcIdade from '../../service/calcIdade'
 
 import './subscribe.css'
 
@@ -20,11 +23,26 @@ interface CheckboxOption {
     label: string;
 }
 
+interface MemberProps {
+    name: string,
+    email: string,
+    cpf: string,
+    telefone: string,
+    dtNascimento: string,
+}
+
 function Subscribe() {
     const { cultoId } = useParams()
     const [culto, setCulto] = useState<Iculto>();
+    const [member, setMember] = useState<MemberProps>()
     const [complemento, setComplemento] = useState(false)
     const [questions, setQuestions] = useState(false)
+    const [isModal, setIsModal] = useState(true)
+    const [textModal, setTextModal] = useState({
+        'title': "",
+        'description': "",
+        'type': ""
+    })
 
     const checkboxOptions: CheckboxOption[] = [
         { id: 'true', value: 'true', label: 'Sim' },
@@ -45,9 +63,9 @@ function Subscribe() {
         { id: "7", question: "7 - VOCÊ TRABALHA NA LINHA DE FRENTE DO ENFRENTAMENTO DO COVID-19 (CORONAVÍRUS)? " },
         { id: "8", question: "8 - VOCÊ TEM DIABETES?" },
         { id: "9", question: "9 - VOCÊ TEM PROBLEMAS CARDIOLÓGICOS?" },
-        { id: "10", question: "10 - VOCÊ TEM MENOS DE 12 ANOU OU MAIS DE 59 ANOS?" },
+        { id: "10", question: "10 - VOCÊ TEM MENOS DE 12 ANOS OU OU MAIS DE 59 ANOS?" },
         { id: "11", question: "11 - VOCÊ ESTÁ COM A COVID-19 (CORONAVÍRUS)?" },
-        { id: "12", question: "12 - ALGUÉM DE SUA FAMÍLIA ESTÁ COM O CORONAVÍRUS?" },
+        { id: "12", question: "12 - ALGUÉM DE SUA FAMÍLIA ESTÁ COM O COVID-19 (CORONAVÍRUS)?" },
         { id: "13", question: "13 - TEVE CONTATO COM ALGUÉM QUE ESTÁ COM A COVID-19 NOS ÚLTIMOS 14 DIAS?" },
         { id: "14", question: "14 - ESTÁ CIENTE QUE CASO ALGUMA DAS PERGUNTAS ACIMA SEJA RESPONDIDA POSITIVAMENTE VOCÊ NÃO PODERÁ TER ACESSO AOS CULTOS PRESENCIAS?" }
     ]
@@ -56,15 +74,42 @@ function Subscribe() {
     const formRefQuestion = useRef<FormHandles>(null);
 
     useEffect(() => {
-        const uniqueData: any = data.reduce((prev, current) => {
-            return (current.id === cultoId) ? current : prev
+        setTextModal({
+            'title': 'Solicitação Rejeitada',
+            'description': 'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',
+            'type': 'rejected'
         })
-        setCulto(uniqueData)
+    }, [])
+
+    useEffect(() => {
+        api.get(`/cultos?id=${cultoId}`)
+            .then((result: any) => {
+                const uniqueData: any = result.data[0]
+
+                uniqueData.id = cultoId
+                delete uniqueData._id
+
+                setCulto(uniqueData)
+            })
+
     }, [cultoId]);
 
-    const handleSubmitMain: SubmitHandler<FormData> = (data, { reset }) => {
-        console.log({ complemento, questions });
+    async function seacherUser(name?: string, dtNascimento?: string, cpf?: string) {
+        if (cpf) {
+            try {
+                return await api.get(`/auth?cpf=${cpf}`)
+            } catch (error) {
 
+            }
+        }
+        if (name) {
+            return await api.get(`/auth?name=${name}&dtNascimento=${dtNascimento}`)
+        }
+
+        return await api.get(`/auth?cpf=12345678990`)
+    }
+
+    const handleSubmitMain: SubmitHandler<FormData> = async (data, { reset }) => {
         if (!complemento) {
             if (questions) {
                 reset()
@@ -72,11 +117,27 @@ function Subscribe() {
                 setQuestions(false)
             } else {
                 //Buscar
-                //verificar se beneficiario existe
-                //caso exista... segue...
+                const name = formRefMain.current!.getFieldValue('name');
+                const dtNascimento = formRefMain.current!.getFieldValue('dtNascimento');
+                const cpf = String(formRefMain.current!.getFieldValue('cpf')).replace('.', '').replace('.', '').replace('.', '').replace('-', '');
 
-                //rota se não existir
-                setComplemento(!complemento)
+                //const cpfClear: string = String(cpf)
+
+                seacherUser(name, dtNascimento, cpf)
+                    .then(result => {
+                        setMember(result.data.user)
+                        localStorage.setItem('token', 'Bearer ' + result.data.token)
+                        console.log(result, member)
+                    })
+
+                if (member) {
+                    habiliteQuestions()
+                }
+                else {
+                    //caso exista... segue...
+                    //rota se não existir
+                    setComplemento(!complemento)
+                }
             }
 
             // {{!complemento
@@ -96,24 +157,78 @@ function Subscribe() {
     };
 
     const handleSubmitQuestion: SubmitHandler<FormData> = (data, { reset }) => {
-        console.log({ dados: data, complemento: complemento });
 
         reset()
-        setComplemento(false)
-        setQuestions(false)
+
+        formRefMain.current?.reset()
+
+
+        habiliteQuestions()
     };
 
-    function HandleSave() {
-        const dataSave = formRefMain.current?.getData();
-        console.log({ dataSave })
-        setComplemento(false)
-        setQuestions(true)
-        console.log({ complemento, questions });
+    async function HandleSave() {
+        const name = formRefMain.current!.getFieldValue('name');
+        const dtNascimento = formRefMain.current!.getFieldValue('dtNascimento');
+        const cpf = String(formRefMain.current!.getFieldValue('cpf')).replace('.', '').replace('.', '').replace('.', '').replace('-', '');
+        const telefone = formRefMain.current!.getFieldValue('telefone');
+        const email = formRefMain.current!.getFieldValue('email');
+
+
+        console.log({ name, email, cpf, telefone, dtNascimento })
+
+        api.post('/auth/register', { name, email, cpf, telefone, dtNascimento })
+            .then(result => {
+
+                setMember(result.data.user)
+
+                localStorage.setItem('token', 'Bearer ' + result.data.token)
+
+            }).catch(err => {
+                console.log(err)
+            })
+
+        habiliteQuestions()
     }
 
+    function habiliteQuestions() {
+        const hoje = Date.now()
+
+        console.log({ hoje: new Date(hoje), nascimento: new Date(member!.dtNascimento) })
+
+        const idade = calcIdade(new Date(member!.dtNascimento), new Date(Date.now()))
+        console.log({ idade: idade })
+
+        if (!(idade > 12 && idade < 60)) {
+            setTextModal({
+                'title': 'Solicitação Rejeitada',
+                'description': 'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',
+                'type': 'rejected'
+            })
+            setIsModal(true)
+        } else {
+            setComplemento(false)
+            setQuestions(true)
+        }
+    }
 
     return (
         <div id="page-subscribe">
+            {isModal &&
+                <Modal id="modal"
+                    title={textModal.title}
+                    description={textModal.description}
+                    type={textModal.type}
+                    onClose={() => setIsModal(false)} >
+                    <p>
+                        1 Coríntios:10:31 (NVI)
+                        <br />
+                        Assim, quer vocês comam, bebam ou façam qualquer outra coisa, façam tudo para a glória de Deus.
+                    </p>
+                </Modal>
+            }
+            {!isModal &&
+                <button onClick={() => setIsModal(true)}>Show Modal</button>
+            }
             <Menu
                 title={culto?.name.toUpperCase()}
                 description={culto?.description}
@@ -157,7 +272,7 @@ function Subscribe() {
                                 placeholder="email@email.com.br"
                             />
                             <InputMask
-                                name="telepone"
+                                name="telefone"
                                 label="Telefone"
                                 mask="(99) 99999-9999"
                                 placeholder="(00) 00000-0000"

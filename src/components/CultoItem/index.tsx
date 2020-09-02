@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 export interface Iculto {
     id: string,
     name: string,
-    datatime: string,
+    schedule: Date,
     vagas: number,
     description: string
 }
@@ -26,7 +26,14 @@ const Culto: React.FC<CultoProps> = ({ culto }) => {
         <article className="culto-item">
             <header>
                 <h2>{culto.name}</h2>
-                <strong>{culto.datatime}</strong>
+                <strong>{new Intl.DateTimeFormat('pt-BR', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                }).format(culto.schedule)}</strong>
+
             </header>
             <p className='description'>{culto.description}</p>
 

@@ -1,0 +1,87 @@
+.modal{
+    background: rgba(0, 0, 0, 0.5);
+    width: 100%;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    z-index: 10000;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal .container{
+    background: white;
+    border: 0px solid black;
+    border-radius: 0.8rem;
+
+    width: 75vw;
+    height: 75vw;
+
+    max-width: 400px;
+    max-height: 400px;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.close{
+    position: absolute;
+    top: -0.5rem;
+    right: -0.5rem;
+    width: 2rem;
+    height: 2rem;
+
+    border: none;
+    outline: none;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+}
+
+.close::after,
+.close::before{
+    position: absolute;
+    content: ' ';
+    width: 0.2rem;
+    height: 1.5rem;
+    background-color: black;
+}
+.close::after{
+    transform: rotate(45deg);
+}
+.close::before{
+    transform: rotate(-45deg);
+}
+
+.modal .container .content{
+    width: 100%;
+    height: 100%;
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.modal .container .content h1{
+    font-size: larger;
+}
+.modal .container .content h2{
+    font-size: medium;
+}
+
+.modal .container .content .child{
+    display: flex;
+    flex-direction: column;
+    font-size: small;
+}

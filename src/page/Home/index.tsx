@@ -17,6 +17,7 @@ function Home() {
     useEffect(() => {
         api.get('/cultos')
             .then((result: any) => {
+                console.log(result)
                 const dataFormat = result.data.map((item: any, index: number) => {
                     const { _id, name, schedule, vagas, description } = item
 
@@ -24,8 +25,6 @@ function Home() {
 
                     return { id: _id, name, schedule: newSchedule, vagas, description }
                 })
-
-                console.log(dataFormat)
 
                 setCultos(dataFormat)
             })

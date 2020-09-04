@@ -26,3 +26,11 @@
 #radio-container .radio-option{
     font-size: larger;
 }
+
+#radio-container .input-error{
+    color:white;
+}
+
+.error{
+    background-color: tomato;
+}

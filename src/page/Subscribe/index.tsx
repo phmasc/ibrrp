@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { Form } from '@unform/web'
-import { SubmitHandler, FormHandles, Scope } from '@unform/core';
+import { SubmitHandler, FormHandles } from '@unform/core';
+import * as Yup from 'yup';
 
 import { Iculto } from '../../components/CultoItem';
 
@@ -24,6 +25,7 @@ interface CheckboxOption {
 }
 
 interface MemberProps {
+    _id: string,
     name: string,
     email: string,
     cpf: string,
@@ -33,11 +35,13 @@ interface MemberProps {
 
 function Subscribe() {
     const { cultoId } = useParams()
+    const history = useHistory();
+
     const [culto, setCulto] = useState<Iculto>();
     const [member, setMember] = useState<MemberProps>()
     const [complemento, setComplemento] = useState(false)
     const [questions, setQuestions] = useState(false)
-    const [isModal, setIsModal] = useState(true)
+    const [isModal, setIsModal] = useState(false)
     const [textModal, setTextModal] = useState({
         'title': "",
         'description': "",
@@ -109,6 +113,23 @@ function Subscribe() {
         return await api.get(`/auth?cpf=12345678990`)
     }
 
+    function OpenModal(title: string, description: string, type: string) {
+        setTextModal({
+            'title': title,
+            'description': description,
+            'type': type
+        })
+
+        setIsModal(true)
+    }
+
+    function closeModal() {
+        setIsModal(false)
+        formRefQuestion.current?.reset()
+        formRefMain.current?.reset()
+        history.push('/')
+    }
+
     const handleSubmitMain: SubmitHandler<FormData> = async (data, { reset }) => {
         if (!complemento) {
             if (questions) {
@@ -127,23 +148,18 @@ function Subscribe() {
                     .then(result => {
                         setMember(result.data.user)
                         localStorage.setItem('token', 'Bearer ' + result.data.token)
-                        console.log(result, member)
                     })
-
-                if (member) {
-                    habiliteQuestions()
-                }
-                else {
-                    //caso exista... segue...
-                    //rota se não existir
-                    setComplemento(!complemento)
-                }
+                    .then(() => {
+                        if (member) {
+                            habiliteQuestions()
+                        }
+                        else {
+                            //caso exista... segue...
+                            //rota se não existir
+                            setComplemento(!complemento)
+                        }
+                    })
             }
-
-            // {{!complemento
-            //     ? questions ? <p>Cancelar</p> : <p>Buscar</p>
-            //     : <p>Cancelar</p>}}
-
         } else { //Cancelar || Finalizar
             if (questions) { //Questionário aberto, verificar e finalizar
                 reset()
@@ -156,14 +172,71 @@ function Subscribe() {
         }
     };
 
-    const handleSubmitQuestion: SubmitHandler<FormData> = (data, { reset }) => {
+    const handleSubmitQuestion: SubmitHandler<FormData> = async (data, { reset }) => {
+        try {
+            formRefQuestion.current?.setErrors({})
+            const schema = Yup.object().shape({
+                'r0': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r1': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r2': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r3': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r4': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r5': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r6': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r7': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r8': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r9': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r10': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r11': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r12': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r13': Yup.string().min(4, 'Esta questão é obrigatória'),
+                'r14': Yup.string().min(4, 'Esta questão é obrigatória'),
+            })
+            await schema.validate(data, {
+                abortEarly: false,
+            })
 
-        reset()
+            console.log(data)
 
-        formRefMain.current?.reset()
+            const able = Object.keys(data).reduce((prevValue, key) => {
+                return (!prevValue ? (key !== "r14" && data[key] === "true") : prevValue)
+            }, false)
+
+            if (able) {
+                OpenModal(
+                    'Solicitação Rejeitada',
+                    'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',
+                    'rejected'
+                )
+            } else {
+                const dataSend = {
+                    'id': member?._id,
+                    'cultoId': cultoId
+                }
+
+                console.log(dataSend)
+                try {
+                    const warn = await api.post('/auth/booking', dataSend)
+                    console.log({ warn })
+
+                    OpenModal(
+                        'Acesso autorizado',
+                        'Parabéns sua inscrição está confimada',
+                        'approved'
+                    )
+                } catch (error) { console.log(error) }
 
 
-        habiliteQuestions()
+            }
+        } catch (err) {
+            if (err instanceof Yup.ValidationError) {
+                const MessageError = {}
+                err.inner.forEach((error: any) => {
+                    MessageError[error.path] = error.message;
+                })
+                formRefQuestion.current?.setErrors(MessageError)
+            }
+        }
     };
 
     async function HandleSave() {
@@ -173,9 +246,6 @@ function Subscribe() {
         const telefone = formRefMain.current!.getFieldValue('telefone');
         const email = formRefMain.current!.getFieldValue('email');
 
-
-        console.log({ name, email, cpf, telefone, dtNascimento })
-
         api.post('/auth/register', { name, email, cpf, telefone, dtNascimento })
             .then(result => {
 
@@ -183,31 +253,24 @@ function Subscribe() {
 
                 localStorage.setItem('token', 'Bearer ' + result.data.token)
 
-            }).catch(err => {
-                console.log(err)
-            })
+            }).catch(err => { console.log(err) })
 
         habiliteQuestions()
     }
 
     function habiliteQuestions() {
-        const hoje = Date.now()
-
-        console.log({ hoje: new Date(hoje), nascimento: new Date(member!.dtNascimento) })
-
         const idade = calcIdade(new Date(member!.dtNascimento), new Date(Date.now()))
-        console.log({ idade: idade })
 
         if (!(idade > 12 && idade < 60)) {
-            setTextModal({
-                'title': 'Solicitação Rejeitada',
-                'description': 'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',
-                'type': 'rejected'
-            })
-            setIsModal(true)
+            OpenModal(
+                'Solicitação Rejeitada',
+                'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',
+                'rejected'
+            )
         } else {
             setComplemento(false)
             setQuestions(true)
+            formRefMain.current?.reset()
         }
     }
 
@@ -218,16 +281,13 @@ function Subscribe() {
                     title={textModal.title}
                     description={textModal.description}
                     type={textModal.type}
-                    onClose={() => setIsModal(false)} >
-                    <p>
+                    onClose={() => closeModal()} >
+                    <footer>
                         1 Coríntios:10:31 (NVI)
                         <br />
                         Assim, quer vocês comam, bebam ou façam qualquer outra coisa, façam tudo para a glória de Deus.
-                    </p>
+                    </footer>
                 </Modal>
-            }
-            {!isModal &&
-                <button onClick={() => setIsModal(true)}>Show Modal</button>
             }
             <Menu
                 title={culto?.name.toUpperCase()}
@@ -293,28 +353,24 @@ function Subscribe() {
                         >
                             <div className="questions">
                                 <h3>Formulário de Inscrição</h3>
-                                <Scope path="answers">
-                                    <RadioInput name={perguntas[0].id} options={checkboxOptions} label={perguntas[0].question} />
-                                    <RadioInput name={perguntas[1].id} options={checkboxOptions} label={perguntas[1].question} />
-                                    <RadioInput name={perguntas[2].id} options={checkboxOptions} label={perguntas[2].question} />
-                                    <RadioInput name={perguntas[3].id} options={checkboxOptions} label={perguntas[3].question} />
-                                    <RadioInput name={perguntas[4].id} options={checkboxOptions} label={perguntas[4].question} />
-                                    <RadioInput name={perguntas[5].id} options={checkboxOptions} label={perguntas[5].question} />
-                                    <RadioInput name={perguntas[6].id} options={checkboxOptions} label={perguntas[6].question} />
-                                    <RadioInput name={perguntas[7].id} options={checkboxOptions} label={perguntas[7].question} />
-                                    <RadioInput name={perguntas[8].id} options={checkboxOptions} label={perguntas[8].question} />
-                                    <RadioInput name={perguntas[9].id} options={checkboxOptions} label={perguntas[9].question} />
-                                    <RadioInput name={perguntas[10].id} options={checkboxOptions} label={perguntas[10].question} />
-                                    <RadioInput name={perguntas[11].id} options={checkboxOptions} label={perguntas[11].question} />
-                                    <RadioInput name={perguntas[12].id} options={checkboxOptions} label={perguntas[12].question} />
-                                    <RadioInput name={perguntas[13].id} options={checkboxOptions15} label={perguntas[13].question} />
-                                </Scope>
+                                <RadioInput name={'r' + perguntas[0].id} options={checkboxOptions} label={perguntas[0].question} />
+                                <RadioInput name={'r' + perguntas[1].id} options={checkboxOptions} label={perguntas[1].question} />
+                                <RadioInput name={'r' + perguntas[2].id} options={checkboxOptions} label={perguntas[2].question} />
+                                <RadioInput name={'r' + perguntas[3].id} options={checkboxOptions} label={perguntas[3].question} />
+                                <RadioInput name={'r' + perguntas[4].id} options={checkboxOptions} label={perguntas[4].question} />
+                                <RadioInput name={'r' + perguntas[5].id} options={checkboxOptions} label={perguntas[5].question} />
+                                <RadioInput name={'r' + perguntas[6].id} options={checkboxOptions} label={perguntas[6].question} />
+                                <RadioInput name={'r' + perguntas[7].id} options={checkboxOptions} label={perguntas[7].question} />
+                                <RadioInput name={'r' + perguntas[8].id} options={checkboxOptions} label={perguntas[8].question} />
+                                <RadioInput name={'r' + perguntas[9].id} options={checkboxOptions} label={perguntas[9].question} />
+                                <RadioInput name={'r' + perguntas[10].id} options={checkboxOptions} label={perguntas[10].question} />
+                                <RadioInput name={'r' + perguntas[11].id} options={checkboxOptions} label={perguntas[11].question} />
+                                <RadioInput name={'r' + perguntas[12].id} options={checkboxOptions} label={perguntas[12].question} />
+                                <RadioInput name={'r' + perguntas[13].id} options={checkboxOptions15} label={perguntas[13].question} />
                             </div>
                             <button type="submit">Finalizar</button>
                         </Form>
-
                     </>
-
                 }
             </div>
         </div>

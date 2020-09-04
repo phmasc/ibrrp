@@ -11,18 +11,19 @@ interface ModalProps {
     children?: ReactChild
 }
 
-const Modal: React.FC<ModalProps> = ({ id, title, description, onClose, children }) => {
+const Modal: React.FC<ModalProps> = ({ id, title, description, type, onClose, children }) => {
 
     function HandleOutsideClick(e: any) {
         if (e.target.id === id) { onClose!() }
     }
 
+    console.log(type)
 
     return (
-        <div id={id} className="modal" onClick={(e) => HandleOutsideClick(e)}>
+        <div id={id} className={`modal ${type}`} onClick={(e) => HandleOutsideClick(e)}>
             <div className="container">
                 <button className="close" onClick={() => onClose!()} />
-                <div className="content">
+                <div className='content'>
                     <h1>{title}</h1>
                     <h2>{description}</h2>
                     <div className="child">

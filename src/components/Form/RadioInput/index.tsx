@@ -21,7 +21,11 @@ const RadioInput: React.FC<Props> = ({ name, label, options, ...rest }) => {
       name: fieldName,
       ref: inputRefs.current,
       getValue: (refs: HTMLInputElement[]) => {
-        return refs.find(ref => ref.checked)?.value || '';
+        try {
+          return refs.find(ref => ref.checked)?.value || '';
+        } catch (error) {
+          return '';
+        }
       },
       setValue: (refs: HTMLInputElement[], id: string) => {
         const inputRef = refs.find(ref => ref.id === id);
@@ -34,9 +38,10 @@ const RadioInput: React.FC<Props> = ({ name, label, options, ...rest }) => {
     });
   }, [defaultValue, fieldName, registerField]);
   return (
-    <div id="radio-container">
-      {label && <label className="input-label" htmlFor={fieldName}>{label}</label>}
-      <div className="input-radio">
+    <div id="radio-container" className={`${error ? 'error' : ''}`}>
+      {label && <label className={`input-label`} htmlFor={fieldName}>{label}</label>}
+      {error && <span className="input-error">{error}</span>}
+      <div className='input-radio'>
         {options.map(option => (
           <label htmlFor={option.id} key={option.id} className="radio-option">
             <input
@@ -52,7 +57,6 @@ const RadioInput: React.FC<Props> = ({ name, label, options, ...rest }) => {
           </label>
         ))}
       </div>
-      {error && <span className="input-error">{error}</span>}
     </div>
   );
 };

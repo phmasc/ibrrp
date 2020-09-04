@@ -220,9 +220,9 @@ function Subscribe() {
                     console.log({ warn })
 
                     OpenModal(
-                        'Acesso autorizado',
-                        'Parabéns sua inscrição está confimada',
-                        'approved'
+                        warn.data.title,
+                        warn.data.description,
+                        warn.data.type
                     )
                 } catch (error) { console.log(error) }
 

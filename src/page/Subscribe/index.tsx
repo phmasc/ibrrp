@@ -5,13 +5,13 @@ import { Form } from '@unform/web'
 import { SubmitHandler, FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
+import Menu from '../../components/Menu';
+import Modal from '../../components/Modal';
 import { Iculto } from '../../components/CultoItem';
 
-import Menu from '../../components/Menu';
 import Input from '../../components/Form/Input';
 import InputMask from '../../components/Form/InputMask';
 import RadioInput from '../../components/Form/RadioInput';
-import Modal from '../../components/Modal';
 
 import api from '../../service/api';
 import calcIdade from '../../service/calcIdade'
@@ -98,19 +98,36 @@ function Subscribe() {
 
     }, [cultoId]);
 
-    async function seacherUser(name?: string, dtNascimento?: string, cpf?: string) {
-        if (cpf) {
-            try {
-                return await api.get(`/auth?cpf=${cpf}`)
-            } catch (error) {
+    useEffect(() => {
+        if (questions) {
+            console.log({ member, 'dtnasc': member?.dtNascimento.substr(0, 10) })
+            formRefMain.current?.setFieldValue('name', member?.name)
+            formRefMain.current?.setFieldValue('dtNascimento', member?.dtNascimento.substr(0, 10))
+            formRefMain.current?.setFieldValue('cpf', member?.cpf)
+        }
+    }, [questions, member])
 
-            }
+    async function seacherUser(name?: string, dtNascimento?: string, cpf?: string): Promise<any> {
+        if (cpf) {
+            return new Promise((resolve, reject) => {
+                api.get(`/auth?cpf=${cpf}`)
+                    .then(result => { resolve(result) })
+                    .catch(error => {
+                        console.log({ error, 'url': `/auth?cpf=${cpf}` })
+                        reject(error)
+                    })
+            })
         }
         if (name) {
-            return await api.get(`/auth?name=${name}&dtNascimento=${dtNascimento}`)
+            return new Promise((resolve, reject) => {
+                api.get(`/auth?name=${name}&dtNascimento=${dtNascimento}`)
+                    .then(result => { resolve(result) })
+                    .catch(error => {
+                        console.log({ error, 'url': `/auth?name=${name}&dtNascimento=${dtNascimento}` })
+                        reject(error)
+                    })
+            })
         }
-
-        return await api.get(`/auth?cpf=12345678990`)
     }
 
     function OpenModal(title: string, description: string, type: string) {
@@ -131,6 +148,7 @@ function Subscribe() {
     }
 
     const handleSubmitMain: SubmitHandler<FormData> = async (data, { reset }) => {
+        console.log({ complemento, questions })
         if (!complemento) {
             if (questions) {
                 reset()
@@ -138,29 +156,31 @@ function Subscribe() {
                 setQuestions(false)
             } else {
                 //Buscar
+                console.log("buscando...")
                 const name = formRefMain.current!.getFieldValue('name');
                 const dtNascimento = formRefMain.current!.getFieldValue('dtNascimento');
                 const cpf = String(formRefMain.current!.getFieldValue('cpf')).replace('.', '').replace('.', '').replace('.', '').replace('-', '');
 
                 //const cpfClear: string = String(cpf)
 
+                //const result = await 
                 seacherUser(name, dtNascimento, cpf)
                     .then(result => {
-                        setMember(result.data.user)
+                        console.log({ user: result.data!.user, token: result.data.token })
                         localStorage.setItem('token', 'Bearer ' + result.data.token)
+
+                        setMember(result.data.user)
+
+                        console.log({ member })
+
+                        habiliteQuestions(result.data.user!.dtNascimento)
                     })
-                    .then(() => {
-                        if (member) {
-                            habiliteQuestions()
-                        }
-                        else {
-                            //caso exista... segue...
-                            //rota se não existir
-                            setComplemento(!complemento)
-                        }
+                    .catch(error => {
+                        setComplemento(!complemento)
                     })
+
             }
-        } else { //Cancelar || Finalizar
+        } else { //Cancelar
             if (questions) { //Questionário aberto, verificar e finalizar
                 reset()
 
@@ -248,18 +268,15 @@ function Subscribe() {
 
         api.post('/auth/register', { name, email, cpf, telefone, dtNascimento })
             .then(result => {
-
-                setMember(result.data.user)
-
                 localStorage.setItem('token', 'Bearer ' + result.data.token)
-
+                setMember(result.data.user)
+                habiliteQuestions(result.data.user!.dtNascimento)
             }).catch(err => { console.log(err) })
-
-        habiliteQuestions()
     }
 
-    function habiliteQuestions() {
-        const idade = calcIdade(new Date(member!.dtNascimento), new Date(Date.now()))
+    function habiliteQuestions(dtNascimento: string) {
+        console.log({ member })
+        const idade = calcIdade(new Date(dtNascimento), new Date(Date.now()))
 
         if (!(idade > 12 && idade < 60)) {
             OpenModal(
@@ -270,7 +287,7 @@ function Subscribe() {
         } else {
             setComplemento(false)
             setQuestions(true)
-            formRefMain.current?.reset()
+            //formRefMain.current?.reset()
         }
     }
 
@@ -346,6 +363,7 @@ function Subscribe() {
                 </Form>
                 {questions &&
                     <>
+
                         <Form
                             ref={formRefQuestion}
                             className="form-questions"

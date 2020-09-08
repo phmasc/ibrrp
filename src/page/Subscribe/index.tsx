@@ -41,12 +41,13 @@ function Subscribe() {
     const [member, setMember] = useState<MemberProps>()
     const [complemento, setComplemento] = useState(false)
     const [questions, setQuestions] = useState(false)
+
+    //Campos para Modal
     const [isModal, setIsModal] = useState(false)
-    const [textModal, setTextModal] = useState({
-        'title': "",
-        'description': "",
-        'type': ""
-    })
+
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [type, setType] = useState('')
 
     const checkboxOptions: CheckboxOption[] = [
         { id: 'true', value: 'true', label: 'Sim' },
@@ -78,14 +79,6 @@ function Subscribe() {
     const formRefQuestion = useRef<FormHandles>(null);
 
     useEffect(() => {
-        setTextModal({
-            'title': 'Solicitação Rejeitada',
-            'description': 'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',
-            'type': 'rejected'
-        })
-    }, [])
-
-    useEffect(() => {
         api.get(`/cultos?id=${cultoId}`)
             .then((result: any) => {
                 const uniqueData: any = result.data[0]
@@ -100,10 +93,8 @@ function Subscribe() {
 
     useEffect(() => {
         if (questions) {
-            console.log({ member, 'dtnasc': member?.dtNascimento.substr(0, 10) })
             formRefMain.current?.setFieldValue('name', member?.name)
             formRefMain.current?.setFieldValue('dtNascimento', member?.dtNascimento.substr(0, 10))
-            formRefMain.current?.setFieldValue('cpf', member?.cpf)
         }
     }, [questions, member])
 
@@ -131,12 +122,9 @@ function Subscribe() {
     }
 
     function OpenModal(title: string, description: string, type: string) {
-        setTextModal({
-            'title': title,
-            'description': description,
-            'type': type
-        })
-
+        setTitle(title)
+        setDescription(description)
+        setType(type)
         setIsModal(true)
     }
 
@@ -148,7 +136,6 @@ function Subscribe() {
     }
 
     const handleSubmitMain: SubmitHandler<FormData> = async (data, { reset }) => {
-        console.log({ complemento, questions })
         if (!complemento) {
             if (questions) {
                 reset()
@@ -156,7 +143,6 @@ function Subscribe() {
                 setQuestions(false)
             } else {
                 //Buscar
-                console.log("buscando...")
                 const name = formRefMain.current!.getFieldValue('name');
                 const dtNascimento = formRefMain.current!.getFieldValue('dtNascimento');
                 const cpf = String(formRefMain.current!.getFieldValue('cpf')).replace('.', '').replace('.', '').replace('.', '').replace('-', '');
@@ -166,12 +152,9 @@ function Subscribe() {
                 //const result = await 
                 seacherUser(name, dtNascimento, cpf)
                     .then(result => {
-                        console.log({ user: result.data!.user, token: result.data.token })
                         localStorage.setItem('token', 'Bearer ' + result.data.token)
 
                         setMember(result.data.user)
-
-                        console.log({ member })
 
                         habiliteQuestions(result.data.user!.dtNascimento)
                     })
@@ -216,8 +199,6 @@ function Subscribe() {
                 abortEarly: false,
             })
 
-            console.log(data)
-
             const able = Object.keys(data).reduce((prevValue, key) => {
                 return (!prevValue ? (key !== "r14" && data[key] === "true") : prevValue)
             }, false)
@@ -234,11 +215,8 @@ function Subscribe() {
                     'cultoId': cultoId
                 }
 
-                console.log(dataSend)
                 try {
                     const warn = await api.post('/auth/booking', dataSend)
-                    console.log({ warn })
-
                     OpenModal(
                         warn.data.title,
                         warn.data.description,
@@ -275,7 +253,6 @@ function Subscribe() {
     }
 
     function habiliteQuestions(dtNascimento: string) {
-        console.log({ member })
         const idade = calcIdade(new Date(dtNascimento), new Date(Date.now()))
 
         if (!(idade > 12 && idade < 60)) {
@@ -295,9 +272,9 @@ function Subscribe() {
         <div id="page-subscribe">
             {isModal &&
                 <Modal id="modal"
-                    title={textModal.title}
-                    description={textModal.description}
-                    type={textModal.type}
+                    title={title}
+                    description={description}
+                    type={type}
                     onClose={() => closeModal()} >
                     <footer>
                         1 Coríntios:10:31 (NVI)

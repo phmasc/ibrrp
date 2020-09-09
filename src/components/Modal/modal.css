@@ -1,4 +1,5 @@
-.rejected{
+.rejected,
+.duplicate{
     --color-detail: #E3411B;
 }
 

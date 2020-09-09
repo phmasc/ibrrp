@@ -78,6 +78,17 @@ function Subscribe() {
     const formRefMain = useRef<FormHandles>(null);
     const formRefQuestion = useRef<FormHandles>(null);
 
+    const initialMember: MemberProps = {
+        _id: '',
+        name: '',
+        email: '',
+        cpf: '',
+        telefone: '',
+        dtNascimento: '',
+    }
+
+
+
     useEffect(() => {
         api.get(`/cultos?id=${cultoId}`)
             .then((result: any) => {
@@ -156,6 +167,18 @@ function Subscribe() {
 
                         setMember(result.data.user)
 
+                        const warn = result.data.warn[0]
+
+                        console.log({ warn })
+
+                        if (warn.type === "duplicate") {
+                            OpenModal(
+                                warn.title,
+                                warn.description,
+                                warn.type
+                            )
+                        }
+
                         habiliteQuestions(result.data.user!.dtNascimento)
                     })
                     .catch(error => {
@@ -166,9 +189,10 @@ function Subscribe() {
         } else { //Cancelar
             if (questions) { //Questionário aberto, verificar e finalizar
                 reset()
-
+                setMember(initialMember)
             } else {
                 reset()
+                setMember(initialMember)
                 setComplemento(false)
                 setQuestions(false)
             }

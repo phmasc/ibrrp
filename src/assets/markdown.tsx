@@ -6,11 +6,10 @@ export const diretrizes = `
  - Responda ao questionário sobre sua saúde. Seja honesto(a) ao responder as perguntas.
  - Leia o termo de responsabilidade e clique em aceite se estiver de pleno acordo.
  - Aguarde a confirmação na tela.
- - Clique no botão laranja no lado direito da tela para gerar o seu comprovante de inscrição. Imprima ou salve no seu celular. Você só poderá entrar no culto com o código gerado.
- - O comprovante também será enviado por e-mail, mas, por segurança, faça o download do arquivo ainda na página de inscrição.
  - No dia do evento, sua inscrição será confirmada na entrada da igreja.
  - Evite abraços, beijos e apertos de mão. Adote um comportamento amigável sem contato físico, mas sempre com um sorriso no rosto.
- - O uso de máscara e o respeito ao distanciamento social é obrigatório durante a sua estadia dentro da área da igreja. Contamos com a sua colaboração.
+ - O uso de máscara e o respeito ao distanciamento social é obrigatório durante a sua estadia dentro da área da igreja.
+ - Contamos com a sua colaboração.
 `
 
 export const data = [{

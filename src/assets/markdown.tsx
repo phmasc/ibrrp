@@ -4,7 +4,6 @@ export const diretrizes = `
  - Você só poderá estar inscrito em um culto, assim, mais membros poderão participar. Após passar esse culto, poderá se inscrever para outro que tiver vagas
  - Preencha o formulário com seus dados pessoais.
  - Responda ao questionário sobre sua saúde. Seja honesto(a) ao responder as perguntas.
- - Leia o termo de responsabilidade e clique em aceite se estiver de pleno acordo.
  - Aguarde a confirmação na tela.
  - No dia do evento, sua inscrição será confirmada na entrada da igreja.
  - Evite abraços, beijos e apertos de mão. Adote um comportamento amigável sem contato físico, mas sempre com um sorriso no rosto.

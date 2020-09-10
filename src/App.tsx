@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 
 import Home from './page/Home';
 import Subscribe from './page/Subscribe';
+import List from './page/List';
 
 
 function App() {
@@ -10,6 +11,7 @@ function App() {
     <BrowserRouter>
       <Route path="/" exact component={Home} />
       <Route path="/subscribe/:cultoId" component={Subscribe} />
+      <Route path="/list" component={List} />
     </BrowserRouter>
   );
 }

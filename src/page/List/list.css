@@ -1,0 +1,24 @@
+#page-list{
+    background: var(--color-white-primary);
+    width: 100vw;
+    height: 100%;
+    margin-top: calc(var(--menu-height-size-larger) + 15rem);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#page-list .container{
+    background: var(--color-white-lighter);
+    padding: 0.5rem;
+    border: 1px solid var(--color-white-dark);
+    border-radius: 0.8rem;
+
+    width: 90vw;
+}
+
+#page-list .container ul{
+    list-style-type: decimal-leading-zero;
+    padding: 2.5rem;
+    text-transform: capitalize;
+}

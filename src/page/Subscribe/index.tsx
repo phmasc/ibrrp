@@ -301,9 +301,11 @@ function Subscribe() {
                     type={type}
                     onClose={() => closeModal()} >
                     <footer>
-                        1 Coríntios:10:31 (NVI)
+                        Hebreus 13:17 (NVI)
                         <br />
-                        Assim, quer vocês comam, bebam ou façam qualquer outra coisa, façam tudo para a glória de Deus.
+                    Obedeçam aos seus líderes e submetam-se à autoridade deles.
+                    Eles cuidam de vocês como quem deve prestar contas. Obedeçam-lhes, para que o trabalho deles seja uma alegria e não um peso, pois isso não seria proveitoso para vocês.
+
                     </footer>
                 </Modal>
             }

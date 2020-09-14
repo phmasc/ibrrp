@@ -273,11 +273,10 @@ function Subscribe() {
                 "name": Yup.string().required('O nome é obrigatório'),
                 "dtNascimento": Yup.date()
                     .required('A data de nascimento é obrigaória')
-                    .max(referencia, ({ max }) => `É necessário uma data anterior a ${formatDate(max)}`)
-                    .typeError('A data é obrigatória'),
+                    .typeError('A data é obrigatória')
+                    .max(referencia, ({ max }) => `É necessário uma data anterior a ${formatDate(max)}`),
                 "cpf": Yup.string().required('O CPF é obrigatório'),
-                "email": Yup.string().email().required('O e-mail é obrigatório'),
-                "telefone": Yup.string().required('Um telefone é obrigatório'),
+                "email": Yup.string().email('É necessário um e-mail valido').required('O e-mail é obrigatório'),
             })
 
             const name = formRefMain.current!.getFieldValue('name');

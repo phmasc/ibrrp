@@ -270,7 +270,9 @@ function Subscribe() {
             const referencia: Date = new Date("2020-01-01T03:00:00");
 
             const schema = Yup.object().shape({
-                "name": Yup.string().required('O nome é obrigatório'),
+                "name": Yup.string()
+                    .required('O nome é obrigatório')
+                    .matches(/[a-z]\s[a-z]/i, 'Insira o nome completo'),
                 "dtNascimento": Yup.date()
                     .required('A data de nascimento é obrigaória')
                     .typeError('A data é obrigatória')

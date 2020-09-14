@@ -169,7 +169,8 @@ function Subscribe() {
 
                         const warn = result.data.warn[0]
 
-                        console.log({ warn })
+                        console.log({ user: result.data.user, warn })
+
 
                         if (warn.type === "duplicate") {
                             OpenModal(
@@ -219,9 +220,7 @@ function Subscribe() {
                 'r13': Yup.string().min(4, 'Esta questão é obrigatória'),
                 'r14': Yup.string().min(4, 'Esta questão é obrigatória'),
             })
-            await schema.validate(data, {
-                abortEarly: false,
-            })
+            await schema.validate(data, { abortEarly: false, })
 
             const able = Object.keys(data).reduce((prevValue, key) => {
                 return (!prevValue ? (key !== "r14" && data[key] === "true") : prevValue)
@@ -261,25 +260,64 @@ function Subscribe() {
         }
     };
 
-    async function HandleSave() {
-        const name = formRefMain.current!.getFieldValue('name');
-        const dtNascimento = formRefMain.current!.getFieldValue('dtNascimento');
-        const cpf = String(formRefMain.current!.getFieldValue('cpf')).replace('.', '').replace('.', '').replace('.', '').replace('-', '');
-        const telefone = formRefMain.current!.getFieldValue('telefone');
-        const email = formRefMain.current!.getFieldValue('email');
+    function formatDate(date: any) {
+        return new Date(date).toLocaleDateString()
+    }
 
-        api.post('/auth/register', { name, email, cpf, telefone, dtNascimento })
-            .then(result => {
-                localStorage.setItem('token', 'Bearer ' + result.data.token)
-                setMember(result.data.user)
-                habiliteQuestions(result.data.user!.dtNascimento)
-            }).catch(err => { console.log(err) })
+    async function HandleSave() {
+        try {
+            formRefMain.current?.setErrors({})
+            const referencia: Date = new Date("2020-01-01T03:00:00");
+
+            const schema = Yup.object().shape({
+                "name": Yup.string().required('O nome é obrigatório'),
+                "dtNascimento": Yup.date()
+                    .required('A data de nascimento é obrigaória')
+                    .max(referencia, ({ max }) => `É necessário uma data anterior a ${formatDate(max)}`)
+                    .typeError('A data é obrigatória'),
+                "cpf": Yup.string().required('O CPF é obrigatório'),
+                "email": Yup.string().email().required('O e-mail é obrigatório'),
+                "telefone": Yup.string().required('Um telefone é obrigatório'),
+            })
+
+            const name = formRefMain.current!.getFieldValue('name');
+            const dtNascimento = formRefMain.current!.getFieldValue('dtNascimento');
+            const cpf = String(formRefMain.current!.getFieldValue('cpf')).replace('.', '').replace('.', '').replace('.', '').replace('-', '');
+            const telefone = formRefMain.current!.getFieldValue('telefone');
+            const email = formRefMain.current!.getFieldValue('email');
+
+            await schema.validate({ name, dtNascimento, cpf, telefone, email }, { abortEarly: false, })
+
+
+            api.post('/auth/registers', { name, email, cpf, telefone, dtNascimento })
+                .then(result => {
+                    localStorage.setItem('token', 'Bearer ' + result.data.token)
+                    setMember(result.data.user)
+                    habiliteQuestions(result.data.user!.dtNascimento)
+                }).catch(err => { console.log('Erro da API', err) })
+
+        } catch (err) {
+            console.log(`HandleSaveCatch err: ${err}`)
+            if (err instanceof Yup.ValidationError) {
+                const MessageError = {}
+                err.inner.forEach((error: any) => {
+                    MessageError[error.path] = error.message;
+                })
+                formRefMain.current?.setErrors(MessageError)
+            }
+        }
+
+
+
     }
 
     function habiliteQuestions(dtNascimento: string) {
         const idade = calcIdade(new Date(dtNascimento), new Date(Date.now()))
 
-        if (!(idade > 12 && idade < 60)) {
+        console.log(`Habilite Questions dtnasc ${dtNascimento} com idade ${idade}`)
+
+
+        if (!(idade >= 12 && idade < 60)) {
             OpenModal(
                 'Solicitação Rejeitada',
                 'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',

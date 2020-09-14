@@ -21,7 +21,7 @@ const Input: React.FC<Props> = ({ name, label, ...rest }) => {
     }, [fieldName, registerField]);
 
     return (
-        <div id="input-container">
+        <div id="input-container" className={`${error ? 'error' : ''}`}>
             {label && <label className="input-label" htmlFor={fieldName}>{label}</label>}
             <input
                 id={fieldName}
@@ -29,8 +29,8 @@ const Input: React.FC<Props> = ({ name, label, ...rest }) => {
                 defaultValue={defaultValue}
                 {...rest}
             />
-            {error && <span className="input-error">{error}</span>}
-        </div>
+            { error && <span className="input-error">{error}</span>}
+        </div >
     );
 }
 

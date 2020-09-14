@@ -11,3 +11,11 @@
     padding-left: 0.5rem;
     background: var(--color-white-primary);
 }
+
+#input-container .input-error{
+    color:white;
+}
+
+.error{
+    background-color: tomato;
+}

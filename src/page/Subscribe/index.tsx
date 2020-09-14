@@ -396,7 +396,7 @@ function Subscribe() {
                                 mask="(99) 99999-9999"
                                 placeholder="(00) 00000-0000"
                             />
-                            <button type="button" onClick={HandleSave}>
+                            <button type="button" onClick={HandleSave} className='save-button'>
                                 Salvar e Prosseguir
                         </button>
                         </div>

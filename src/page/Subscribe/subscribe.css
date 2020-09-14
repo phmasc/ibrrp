@@ -13,9 +13,11 @@
     padding: 0.5rem;
     border: 1px solid var(--color-white-dark);
     border-radius: 0.8rem;
-
     width: 90vw;
+}
 
+#page-subscribe .form-container .save-button{
+    margin-bottom: 5rem;
 }
 
 #page-subscribe .form-questions{
@@ -55,7 +57,10 @@
         max-width: 800px;
         position: relative;
     }
-    
+    #page-subscribe .form-container .save-button{
+        margin-bottom: 0;
+    }
+
     #page-subscribe .form-main,
     #page-subscribe .form-complemento{
         display: flex;

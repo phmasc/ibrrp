@@ -87,8 +87,6 @@ function Subscribe() {
         dtNascimento: '',
     }
 
-
-
     useEffect(() => {
         api.get(`/cultos?id=${cultoId}`)
             .then((result: any) => {
@@ -112,7 +110,7 @@ function Subscribe() {
     async function seacherUser(name?: string, dtNascimento?: string, cpf?: string): Promise<any> {
         if (cpf) {
             return new Promise((resolve, reject) => {
-                api.get(`/auth?cpf=${cpf}`)
+                api.get(`/auth?cultoId=${cultoId}&cpf=${cpf}`)
                     .then(result => { resolve(result) })
                     .catch(error => {
                         console.log({ error, 'url': `/auth?cpf=${cpf}` })
@@ -122,7 +120,7 @@ function Subscribe() {
         }
         if (name) {
             return new Promise((resolve, reject) => {
-                api.get(`/auth?name=${name}&dtNascimento=${dtNascimento}`)
+                api.get(`/auth?cultoId=${cultoId}&name=${name}&dtNascimento=${dtNascimento}`)
                     .then(result => { resolve(result) })
                     .catch(error => {
                         console.log({ error, 'url': `/auth?name=${name}&dtNascimento=${dtNascimento}` })
@@ -290,7 +288,7 @@ function Subscribe() {
             await schema.validate({ name, dtNascimento, cpf, telefone, email }, { abortEarly: false, })
 
 
-            api.post('/auth/registers', { name, email, cpf, telefone, dtNascimento })
+            api.post('/auth/register', { name, email, cpf, telefone, dtNascimento })
                 .then(result => {
                     localStorage.setItem('token', 'Bearer ' + result.data.token)
                     setMember(result.data.user)
@@ -339,13 +337,21 @@ function Subscribe() {
                     description={description}
                     type={type}
                     onClose={() => closeModal()} >
-                    <footer>
-                        Hebreus 13:17 (NVI)
+                    <div>
+                        {type && (type === "duplicate")
+                            ?
+                            <button> Caroquinha</button>
+                            :
+                            ''
+                        }
+                        <footer>
+                            Hebreus 13:17 (NVI)
                         <br />
                     Obedeçam aos seus líderes e submetam-se à autoridade deles.
                     Eles cuidam de vocês como quem deve prestar contas. Obedeçam-lhes, para que o trabalho deles seja uma alegria e não um peso, pois isso não seria proveitoso para vocês.
 
                     </footer>
+                    </div>
                 </Modal>
             }
             <Menu

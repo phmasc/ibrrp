@@ -40,7 +40,7 @@ export default function List() {
     }, [cultoId])
 
     useEffect(() => {
-        api.get('/cultos')
+        api.get('/cultos?qtd=-1')
             .then((result: any) => {
                 const dataFormat = result.data.map((item: any, index: number) => {
                     const { _id, name, schedule, vagas, description } = item

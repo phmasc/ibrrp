@@ -4,6 +4,7 @@ import { BrowserRouter, Route } from 'react-router-dom';
 import Home from './page/Home';
 import Subscribe from './page/Subscribe';
 import List from './page/List';
+import Check from './page/Check';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Route path="/" exact component={Home} />
       <Route path="/subscribe/:cultoId" component={Subscribe} />
       <Route path="/list" component={List} />
+      <Route path="/checking" component={Check} />
     </BrowserRouter>
   );
 }

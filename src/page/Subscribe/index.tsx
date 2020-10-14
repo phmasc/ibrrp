@@ -95,6 +95,9 @@ function Subscribe() {
                 uniqueData.id = cultoId
                 delete uniqueData._id
 
+                if (!uniqueData.idadeMin) uniqueData.idadeMin = 12
+                if (!uniqueData.idadeMax) uniqueData.idadeMax = 60
+
                 setCulto(uniqueData)
             })
 
@@ -316,7 +319,7 @@ function Subscribe() {
         console.log(`Habilite Questions dtnasc ${dtNascimento} com idade ${idade}`)
 
 
-        if (!(idade >= 12 && idade < 60)) {
+        if (!(idade >= (culto?.idadeMin || 12) && idade < (culto?.idadeMax || 60))) {
             OpenModal(
                 'Solicitação Rejeitada',
                 'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',

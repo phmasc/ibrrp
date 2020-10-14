@@ -8,6 +8,8 @@ export interface Iculto {
     name: string,
     schedule: Date,
     vagas: number,
+    idadeMin?: number,
+    idadeMax?: number,
     description: string
 }
 

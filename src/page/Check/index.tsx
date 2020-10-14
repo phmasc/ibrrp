@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react'
 
+
+
 import api from '../../service/api'
 import { Iculto } from '../../components/CultoItem';
 
 import Menu from '../../components/Menu';
 
-import './list.css'
+import './check.css'
 
 
 export default function List() {
@@ -25,8 +27,13 @@ export default function List() {
                     description: result.data.description
                 })
 
-                setParticipants(result.data.member_id)
+                const newPart = result.data.member_id.sort((a: any, b: any) => {
+                    if (String(a.name).toLocaleLowerCase() < String(b.name).toLocaleLowerCase()) return -1;
+                    if (String(a.name).toLocaleLowerCase() > String(b.name).toLocaleLowerCase()) return 1;
+                    return 0;
+                })
 
+                setParticipants(newPart)
             })
             .catch(err => console.log(err))
     }
@@ -55,9 +62,8 @@ export default function List() {
             .catch(err => console.log(err))
     }, [])
 
-
     return (
-        <div id="page-list" >
+        <div id="page-check" >
             <Menu
                 title={
                     cultos?.name.toUpperCase()
@@ -74,18 +80,19 @@ export default function List() {
                         <li key={participant._id}>
 
                             <p>{String(participant.name).toLocaleLowerCase()}</p>
+                            <button>{"AssignmentTurnedInOutlinedIcon"}</button>
                         </li>
                     ))}
                 </ul>
             </div>
-            <div className="list-cultos">
+            <div className="check-cultos">
                 <strong>Selecione o culto para listar os participantes</strong>
                 <ul>
                     {cultoList.map((culto: Iculto) => (
                         <li key={culto.id}>
                             <button
                                 className={
-                                    `list-button ${(culto.id === cultoId) ? 'button-selected' : ''}`
+                                    `check-button ${(culto.id === cultoId) ? 'button-selected' : ''}`
                                 }
                                 onClick={() => setCultoId(culto.id)}
                             >

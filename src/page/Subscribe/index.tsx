@@ -59,20 +59,20 @@ function Subscribe() {
     ];
 
     const perguntas: any = [
-        { id: "1", question: "1 - VOCÊ TEVE FEBRE NOS ÚLTIMOS 14 DIAS?" },
-        { id: "2", question: "2 - VOCÊ TEVE TOSSE NOS ÚLTIMOS 14 DIAS?" },
-        { id: "3", question: "3 - VOCÊ APRESENTOU CORIZA NOS ÚLTIMOS 14 DIAS?" },
-        { id: "4", question: "4 - VOCÊ APRESENTOU DIARREIA E VÔMITO NAS ÚLTIMAS DUAS SEMANAS?" },
-        { id: "5", question: "5 - VOCÊ TEVE ALGUM OUTRO SINTOMA FORA DE SUA ROTINA NAS ÚLTIMAS DUAS SEMANAS?" },
-        { id: "6", question: "6 - VOCÊ FAZ PARTE DE GRUPO DE RISCO? (Diabetes, Hipertensão, Problemas Cardiológicos, Gestante, entre outros)" },
-        { id: "7", question: "7 - VOCÊ TRABALHA NA LINHA DE FRENTE DO ENFRENTAMENTO DO COVID-19 (CORONAVÍRUS)? " },
-        { id: "8", question: "8 - VOCÊ TEM DIABETES?" },
-        { id: "9", question: "9 - VOCÊ TEM PROBLEMAS CARDIOLÓGICOS?" },
-        { id: "10", question: "10 - VOCÊ TEM MENOS DE 12 ANOS OU OU MAIS DE 59 ANOS?" },
-        { id: "11", question: "11 - VOCÊ ESTÁ COM A COVID-19 (CORONAVÍRUS)?" },
-        { id: "12", question: "12 - ALGUÉM DE SUA FAMÍLIA ESTÁ COM O COVID-19 (CORONAVÍRUS)?" },
-        { id: "13", question: "13 - TEVE CONTATO COM ALGUÉM QUE ESTÁ COM A COVID-19 NOS ÚLTIMOS 14 DIAS?" },
-        { id: "14", question: "14 - ESTÁ CIENTE QUE CASO ALGUMA DAS PERGUNTAS ACIMA SEJA RESPONDIDA POSITIVAMENTE VOCÊ NÃO PODERÁ TER ACESSO AOS CULTOS PRESENCIAS?" }
+        { id: "1", question: "VOCÊ TEVE FEBRE NOS ÚLTIMOS 14 DIAS?" },
+        { id: "2", question: "VOCÊ TEVE TOSSE NOS ÚLTIMOS 14 DIAS?" },
+        { id: "3", question: "VOCÊ APRESENTOU CORIZA NOS ÚLTIMOS 14 DIAS?" },
+        { id: "4", question: "VOCÊ APRESENTOU DIARREIA E VÔMITO NAS ÚLTIMAS DUAS SEMANAS?" },
+        { id: "5", question: "VOCÊ TRABALHA NA LINHA DE FRENTE DO ENFRENTAMENTO DO COVID-19 (CORONAVÍRUS)? " },
+        { id: "6", question: "VOCÊ TEM MENOS DE 12 ANOS?" },
+        { id: "7", question: "VOCÊ ESTÁ COM A COVID-19 (CORONAVÍRUS)?" },
+        { id: "8", question: "ALGUÉM DE SUA FAMÍLIA ESTÁ COM O COVID-19 (CORONAVÍRUS)?" },
+        { id: "9", question: "TEVE CONTATO COM ALGUÉM QUE ESTÁ COM A COVID-19 NOS ÚLTIMOS 14 DIAS?" },
+        { id: "10", question: "ESTÁ CIENTE QUE CASO ALGUMA DAS PERGUNTAS ACIMA SEJA RESPONDIDA POSITIVAMENTE VOCÊ NÃO PODERÁ TER ACESSO AOS CULTOS PRESENCIAS?" }
+        // { id: "5", question: "5 - VOCÊ TEVE ALGUM OUTRO SINTOMA FORA DE SUA ROTINA NAS ÚLTIMAS DUAS SEMANAS?" },
+        // { id: "6", question: "6 - VOCÊ FAZ PARTE DE GRUPO DE RISCO? (Diabetes, Hipertensão, Problemas Cardiológicos, Gestante, entre outros)" },
+        // { id: "8", question: "8 - VOCÊ TEM DIABETES?" },
+        // { id: "9", question: "9 - VOCÊ TEM PROBLEMAS CARDIOLÓGICOS?" },
     ]
 
     const formRefMain = useRef<FormHandles>(null);
@@ -170,9 +170,6 @@ function Subscribe() {
 
                         const warn = result.data.warn[0]
 
-                        console.log({ user: result.data.user, warn })
-
-
                         if (warn.type === "duplicate") {
                             OpenModal(
                                 warn.title,
@@ -216,15 +213,15 @@ function Subscribe() {
                 'r8': Yup.string().min(4, 'Esta questão é obrigatória'),
                 'r9': Yup.string().min(4, 'Esta questão é obrigatória'),
                 'r10': Yup.string().min(4, 'Esta questão é obrigatória'),
-                'r11': Yup.string().min(4, 'Esta questão é obrigatória'),
-                'r12': Yup.string().min(4, 'Esta questão é obrigatória'),
-                'r13': Yup.string().min(4, 'Esta questão é obrigatória'),
-                'r14': Yup.string().min(4, 'Esta questão é obrigatória'),
+                // 'r11': Yup.string().min(4, 'Esta questão é obrigatória'),
+                // 'r12': Yup.string().min(4, 'Esta questão é obrigatória'),
+                // 'r13': Yup.string().min(4, 'Esta questão é obrigatória'),
+                // 'r14': Yup.string().min(4, 'Esta questão é obrigatória'),
             })
             await schema.validate(data, { abortEarly: false, })
 
             const able = Object.keys(data).reduce((prevValue, key) => {
-                return (!prevValue ? (key !== "r14" && data[key] === "true") : prevValue)
+                return (!prevValue ? (key !== "r10" && data[key] === "true") : prevValue)
             }, false)
 
             if (able) {
@@ -316,13 +313,10 @@ function Subscribe() {
     function habiliteQuestions(dtNascimento: string) {
         const idade = calcIdade(new Date(dtNascimento), new Date(Date.now()))
 
-        console.log(`Habilite Questions dtnasc ${dtNascimento} com idade ${idade}`)
-
-
-        if (!(idade >= (culto?.idadeMin || 12) && idade < (culto?.idadeMax || 60))) {
+        if (!(idade >= (culto?.idadeMin || 12) && idade < (culto?.idadeMax || 200))) {
             OpenModal(
                 'Solicitação Rejeitada',
-                'Sua solicitação foi rejeitada, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',
+                'Sua solicitação foi rejeitada devido a sua idade, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',
                 'rejected'
             )
         } else {
@@ -341,12 +335,12 @@ function Subscribe() {
                     type={type}
                     onClose={() => closeModal()} >
                     <div>
-                        {type && (type === "duplicate")
+                        {/* {type && (type === "duplicate")
                             ?
                             <button> Caroquinha</button>
                             :
                             ''
-                        }
+                        } */}
                         <footer>
                             Hebreus 13:17 (NVI)
                         <br />
@@ -369,16 +363,7 @@ function Subscribe() {
                     onSubmit={handleSubmitMain}
                 >
                     <div className="form-main">
-                        <Input
-                            name="name"
-                            label="Nome Completo"
-                            placeholder="Nome (sem abreviações)"
-                        />
-                        <Input
-                            name="dtNascimento"
-                            label="Data de Nascimento"
-                            type="date"
-                        />
+
                         <InputMask
                             name="cpf"
                             label="CPF"
@@ -393,18 +378,32 @@ function Subscribe() {
                     </div>
                     {complemento &&
                         <div className="form-complemento">
-                            <Input
-                                name="email"
-                                label="E-mail"
-                                type="email"
-                                placeholder="email@email.com.br"
-                            />
-                            <InputMask
-                                name="telefone"
-                                label="Telefone"
-                                mask="(99) 99999-9999"
-                                placeholder="(00) 00000-0000"
-                            />
+                            <div>
+                                <Input
+                                    name="name"
+                                    label="Nome Completo"
+                                    placeholder="Nome (sem abreviações)"
+                                />
+                                <Input
+                                    name="dtNascimento"
+                                    label="Data de Nascimento"
+                                    type="date"
+                                />
+                            </div>
+                            <div>
+                                <Input
+                                    name="email"
+                                    label="E-mail"
+                                    type="email"
+                                    placeholder="email@email.com.br"
+                                />
+                                <InputMask
+                                    name="telefone"
+                                    label="Telefone"
+                                    mask="(99) 99999-9999"
+                                    placeholder="(00) 00000-0000"
+                                />
+                            </div>
                             <button type="button" onClick={HandleSave} className='save-button'>
                                 Salvar e Prosseguir
                         </button>
@@ -422,20 +421,20 @@ function Subscribe() {
                         >
                             <div className="questions">
                                 <h3>Formulário de Inscrição</h3>
-                                <RadioInput name={'r' + perguntas[0].id} options={checkboxOptions} label={perguntas[0].question} />
-                                <RadioInput name={'r' + perguntas[1].id} options={checkboxOptions} label={perguntas[1].question} />
-                                <RadioInput name={'r' + perguntas[2].id} options={checkboxOptions} label={perguntas[2].question} />
-                                <RadioInput name={'r' + perguntas[3].id} options={checkboxOptions} label={perguntas[3].question} />
-                                <RadioInput name={'r' + perguntas[4].id} options={checkboxOptions} label={perguntas[4].question} />
-                                <RadioInput name={'r' + perguntas[5].id} options={checkboxOptions} label={perguntas[5].question} />
-                                <RadioInput name={'r' + perguntas[6].id} options={checkboxOptions} label={perguntas[6].question} />
-                                <RadioInput name={'r' + perguntas[7].id} options={checkboxOptions} label={perguntas[7].question} />
-                                <RadioInput name={'r' + perguntas[8].id} options={checkboxOptions} label={perguntas[8].question} />
-                                <RadioInput name={'r' + perguntas[9].id} options={checkboxOptions} label={perguntas[9].question} />
-                                <RadioInput name={'r' + perguntas[10].id} options={checkboxOptions} label={perguntas[10].question} />
+                                <RadioInput name={'r' + perguntas[0].id} options={checkboxOptions} label={perguntas[0].id + ' - ' + perguntas[0].question} />
+                                <RadioInput name={'r' + perguntas[1].id} options={checkboxOptions} label={perguntas[1].id + ' - ' + perguntas[1].question} />
+                                <RadioInput name={'r' + perguntas[2].id} options={checkboxOptions} label={perguntas[2].id + ' - ' + perguntas[2].question} />
+                                <RadioInput name={'r' + perguntas[3].id} options={checkboxOptions} label={perguntas[3].id + ' - ' + perguntas[3].question} />
+                                <RadioInput name={'r' + perguntas[4].id} options={checkboxOptions} label={perguntas[4].id + ' - ' + perguntas[4].question} />
+                                <RadioInput name={'r' + perguntas[5].id} options={checkboxOptions} label={perguntas[5].id + ' - ' + perguntas[5].question} />
+                                <RadioInput name={'r' + perguntas[6].id} options={checkboxOptions} label={perguntas[6].id + ' - ' + perguntas[6].question} />
+                                <RadioInput name={'r' + perguntas[7].id} options={checkboxOptions} label={perguntas[7].id + ' - ' + perguntas[7].question} />
+                                <RadioInput name={'r' + perguntas[8].id} options={checkboxOptions} label={perguntas[8].id + ' - ' + perguntas[8].question} />
+                                <RadioInput name={'r' + perguntas[9].id} options={checkboxOptions15} label={perguntas[9].id + ' - ' + perguntas[9].question} />
+                                {/* <RadioInput name={'r' + perguntas[10].id} options={checkboxOptions} label={perguntas[10].question} />
                                 <RadioInput name={'r' + perguntas[11].id} options={checkboxOptions} label={perguntas[11].question} />
                                 <RadioInput name={'r' + perguntas[12].id} options={checkboxOptions} label={perguntas[12].question} />
-                                <RadioInput name={'r' + perguntas[13].id} options={checkboxOptions15} label={perguntas[13].question} />
+                                <RadioInput name={'r' + perguntas[13].id} options={checkboxOptions15} label={perguntas[13].question} /> */}
                             </div>
                             <button type="submit">Finalizar</button>
                         </Form>

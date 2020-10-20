@@ -1,5 +1,5 @@
 export const diretrizes = `
-- Pessoas menores de 12 anos e maiores de 59 anos não poderão participar dos cultos presenciais. Por favor, não insista!
+- Pessoas menores de 12 anos não poderão participar dos cultos presenciais. Por favor, não insista!
 - Escolha o culto que deseja participar e clique no link de inscrição.
  - Você só poderá estar inscrito em um culto, assim, mais membros poderão participar. Após passar esse culto, poderá se inscrever para outro que tiver vagas
  - Preencha o formulário com seus dados pessoais.

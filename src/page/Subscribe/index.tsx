@@ -96,7 +96,7 @@ function Subscribe() {
                 delete uniqueData._id
 
                 if (!uniqueData.idadeMin) uniqueData.idadeMin = 12
-                if (!uniqueData.idadeMax) uniqueData.idadeMax = 60
+                if (!uniqueData.idadeMax) uniqueData.idadeMax = 200
 
                 setCulto(uniqueData)
             })

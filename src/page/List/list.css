@@ -46,6 +46,9 @@
 
 #page-list .list-cultos ul .list-button{
     background-color:var(--color-white-lighter);
+
+    width: 100%;
+
     padding: 0.44rem;
     margin-bottom: 0.5rem;
     border-radius: 0.8rem;

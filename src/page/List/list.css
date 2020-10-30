@@ -75,6 +75,9 @@
         max-width: 800px;
         width: 85vw;
     }
+    #page-list .list-cultos ul .list-button{
+        min-width: 25rem;
+    }
 }
 
 /*CSS para impressão*/

@@ -37,12 +37,14 @@ const Culto: React.FC<CultoProps> = ({ culto }) => {
                 }).format(culto.schedule)}</strong>
 
             </header>
-            <p className='description'>{culto.description}</p>
+            <div className="body">
+                <p className='description'>{culto.description}</p>
 
-            <button onClick={HandleClick}>
-                <strong>Inscreva-se</strong>
+                <button onClick={HandleClick}>
+                    <strong>Inscreva-se</strong>
+                </button>
                 <p>{culto.vagas} vagas</p>
-            </button>
+            </div>
         </article>
     )
 }

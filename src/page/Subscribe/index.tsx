@@ -151,6 +151,7 @@ function Subscribe() {
         if (!complemento) {
             if (questions) {
                 reset()
+                setMember(initialMember)
                 setComplemento(false)
                 setQuestions(false)
             } else {
@@ -363,28 +364,36 @@ function Subscribe() {
                     onSubmit={handleSubmitMain}
                 >
                     <div className="form-main">
-
-                        <InputMask
-                            name="cpf"
-                            label="CPF"
-                            mask="999.999.999-99"
-                            placeholder="000.000.000-00"
-                        />
-                        <button type="submit">
-                            {!complemento
-                                ? questions ? <p>Cancelar</p> : <p>Buscar</p>
-                                : <p>Cancelar</p>}
-                        </button>
+                        <div className="inputCPF">
+                            <InputMask
+                                className="campo"
+                                name="cpf"
+                                label="CPF"
+                                mask="999.999.999-99"
+                                placeholder="000.000.000-00"
+                            />
+                            <button type="submit" className="save-button">
+                                {!complemento
+                                    ? questions ? <p>Cancelar</p> : <p>Buscar</p>
+                                    : <p>Cancelar</p>}
+                            </button>
+                        </div>
+                        {member?.name &&
+                            <span>
+                                {member?.name}
+                            </span>}
                     </div>
                     {complemento &&
                         <div className="form-complemento">
                             <div>
                                 <Input
+                                    className="campo"
                                     name="name"
                                     label="Nome Completo"
                                     placeholder="Nome (sem abreviações)"
                                 />
                                 <Input
+                                    className="campo"
                                     name="dtNascimento"
                                     label="Data de Nascimento"
                                     type="date"
@@ -392,12 +401,14 @@ function Subscribe() {
                             </div>
                             <div>
                                 <Input
+                                    className="campo"
                                     name="email"
                                     label="E-mail"
                                     type="email"
                                     placeholder="email@email.com.br"
                                 />
                                 <InputMask
+                                    className="campo"
                                     name="telefone"
                                     label="Telefone"
                                     mask="(99) 99999-9999"
@@ -436,7 +447,7 @@ function Subscribe() {
                                 <RadioInput name={'r' + perguntas[12].id} options={checkboxOptions} label={perguntas[12].question} />
                                 <RadioInput name={'r' + perguntas[13].id} options={checkboxOptions15} label={perguntas[13].question} /> */}
                             </div>
-                            <button type="submit">Finalizar</button>
+                            <button className="save-button" type="submit">Finalizar</button>
                         </Form>
                     </>
                 }

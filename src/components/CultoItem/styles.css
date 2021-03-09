@@ -1,39 +1,61 @@
 .culto-item{
-    background: var(--color-violet-dark);
+    background: var(--color-box-item);
     position: relative;
     padding: 0.2rem 0.8rem;
     margin-top: 0.8rem;
     margin-bottom: 0.8rem;
     border-radius: 0.8rem;
     min-height: 10rem;
-    color: var(--color-white-lighter);
+    color: var(--color-text-destak);
+
+    display: flex;
+    flex-direction: column;
 }
 
-.culto-item h2 {
-    color: var(--color-orange-dark);
+.culto-item header{
+    display: flex;
+    flex-direction: column;
 }
 
-.culto-item strong {
+.culto-item header h2 {
+    align-self: center;
+    padding-bottom: 1rem;
+    color: var(--color-text-medium);
+}
+
+.culto-item header strong {
     text-decoration-line: underline;
+    color: var(--color-text-simple);
 }
 
-.culto-item .description {
-    color: var(--color-gray-lighter);
-    max-width: 25rem;
+.culto-item .body{
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color:var(--color-text-destak);
+}
+
+.culto-item .body .description {
+    color: var(--color-text-simple);
+    align-self: baseline;
+    padding-bottom: 1rem;
 }
 
 .culto-item button{
-    background:var(--color-violet-primary);   
-    border-radius: 0.8rem;
+    background:var(--color-button-main);   
+    border-radius: 1rem;
     padding: 0.4rem;
-    margin-left: 2rem;
-    margin-right: 0.3rem;
-    max-width: 10rem;
-    min-height: 5rem;
+    min-width: 16rem;
+    max-width: 25rem;
+    min-height: 1.5rem;
+    align-self: center;
 }
 
 .culto-item button strong{
-    color: var(--color-white-primary)
+    color: var(--color-white-lighter)
 }
 
 .culto-item button p{
@@ -46,15 +68,13 @@
         min-width: 400px;
         max-width: 500px;
     }
+    .culto-item header h2 {
+        align-self: unset;
+        padding-bottom: 0rem;
+    }
     .culto-item .description {
         color: var(--color-gray-lighter);
         width: 80%;
         max-width: 390px;
-    }
-    .culto-item button{
-        position: absolute;
-        right: 0;
-        top: 3rem;
-        height: 5rem;
     }
 }

@@ -1,8 +1,6 @@
 .Logo {
     max-width: 110px;
-    position: absolute;
-    left: 5px;
-    top: 20px;
+    padding-right: 1.5rem;
 }
 
 .Menu {
@@ -21,8 +19,9 @@
   padding-left: 5%;
   padding-right: 5%;
   
-  background: var(--color-white-medium);
+  background: var(--menu-main-pages);
   border-bottom: 2px solid var(--color-blue-medium);
+  color: var(--color-white-lighter);
 }
 
 @media (max-width: 800px) {
@@ -55,7 +54,7 @@
     padding: 0 0.4rem;
   }
   
-  .Menu .header-text h3{
+  .Menu .header-text span{
     font-size: medium;
   }
 }
@@ -65,7 +64,7 @@
     font-size: small;
   }
   
-  .Menu .header-text h3{
+  .Menu .header-text span{
     font-size: smaller;
   }
 }

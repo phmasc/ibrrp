@@ -1,20 +1,26 @@
 #page-home {
-    background: var(--color-white-primary);
+    background: var(--color-white-lighter);
     width: 100vw;
     height: 100%;
     margin-top: calc(var(--menu-height-size-larger) - 10px);
     align-self: baseline;
 }
 
-#page-home .diretrizes{
+#page-home .body{
     margin: 0 1.8rem;
 }
 
-#page-home .diretrizes ul {
-    background: var(--color-blue-primary);
+#page-home .body h3{
+    margin-bottom: 1.5rem;
+    color: var(--color-text-strong);
+}
+
+#page-home .body .diretrizes ul {
+    background: var(--color-box-text);
     border-radius: 0.8rem;
     text-align: justify;
     list-style: none;
+    margin-right: 5rem;
 }
 
 #page-home .diretrizes ul li{
@@ -24,7 +30,7 @@
 }
 
 #page-home .diretrizes ul li::before{
-    content: "\2022";
+    content: "-";
     font-weight: bold;
     display: inline-block; 
     width: 1rem;
@@ -32,13 +38,25 @@
 }
 
 #page-home .diretrizes ul > li:first-child{
-    color: var(--color-orange-dark);
+    color: var(--color-text-strong);
     font: bold 1.6rem Roboto;
 }
 
 #page-home  .diretrizes .list-cultos .culto-item:last-child{
     margin-bottom: 4.5rem;
 }
+
+
+#page-home .body .list-cultos{
+    background-color: var(--color-box-itens);
+    border-radius: 0.8rem;
+    padding: 1rem;
+}
+
+#page-home .body .list-cultos h1{
+    color: var(--color-text-strong);
+}
+
 
 @media (min-width: 800px){
     #page-home{

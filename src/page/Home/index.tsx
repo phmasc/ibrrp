@@ -33,19 +33,20 @@ function Home() {
     return (
         <div id="page-home" >
             <Menu
-                title="CULTOS PRESENCIAIS"
-                description="LEIA COM ATENÇÃO AS INSTRUÇÕES."
+                title="IGREJA BATISTA EM RIO PEQUENO"
+                description="INSCRIÇÕES PARA CULTOS PRESENCIAIS."
                 textButton="Increva-se para o culto presencial aqui" onClickText='subscribe'
             />
-            <div className="diretrizes">
-                <Markdown source={diretrizes} />
-                <div className="list-cultos">
-                    <h1>Escolha seu culto</h1>
-                    {cultos.map((culto: Iculto) => {
-                        return <CultoItem key={culto.id} culto={culto} />
-                    })
-
-                    }
+            <div className="body">
+                <h3>LEIA ATENTAMENTE ÀS INSTRUÇÕES</h3>
+                <div className="diretrizes">
+                    <Markdown source={diretrizes} />
+                    <div className="list-cultos">
+                        <h1>Escolha seu culto</h1>
+                        {cultos.map((culto: Iculto) => {
+                            return <CultoItem key={culto.id} culto={culto} />
+                        })}
+                    </div>
                 </div>
             </div>
         </ div >

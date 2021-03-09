@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Logo from '../../assets/logo.png'
+import Logo from '../../assets/logoWhite.png'
 
 import './Menu.css'
 
@@ -21,7 +21,7 @@ const Menu: React.FC<MenuProps> = ({ title, description, textButton, onClickText
             </Link>
             <div className="header-text">
                 <h1>{title}</h1>
-                <h3>{description}</h3>
+                <span>{description}</span>
             </div>
         </nav>
     )

@@ -7,6 +7,21 @@
 }
 
 :root {
+  --menu-main-pages: #144F60;
+
+  --color-box-text: #CDE3E9;
+  --color-box-itens: #E6EAEB;
+  --color-box-item: #F2F2F2;
+  
+  --color-text-strong: #144F60;
+  --color-text-medium: #28748A;
+  --color-text-simple: #000000;
+  --color-text-destak: #77939C;
+
+  --color-button-main: #28748A;
+
+
+
   --menu-height-size-larger: 110px;
   --menu-height-size-small: 90px;
 
@@ -48,7 +63,7 @@ html, body, #root {
 }
 
 body{
-  background: var(--color-white-primary);
+  background: var(--color-white-lighter);
 }
 
 #root{

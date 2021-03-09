@@ -64,7 +64,7 @@ function Subscribe() {
         { id: "3", question: "VOCÊ APRESENTOU CORIZA NOS ÚLTIMOS 14 DIAS?" },
         { id: "4", question: "VOCÊ APRESENTOU DIARREIA E VÔMITO NAS ÚLTIMAS DUAS SEMANAS?" },
         { id: "5", question: "VOCÊ TRABALHA NA LINHA DE FRENTE DO ENFRENTAMENTO DO COVID-19 (CORONAVÍRUS)? " },
-        { id: "6", question: "VOCÊ TEM MENOS DE 12 ANOS?" },
+        { id: "6", question: "VOCÊ TEM MENOS DE 7 ANOS?" },
         { id: "7", question: "VOCÊ ESTÁ COM A COVID-19 (CORONAVÍRUS)?" },
         { id: "8", question: "ALGUÉM DE SUA FAMÍLIA ESTÁ COM O COVID-19 (CORONAVÍRUS)?" },
         { id: "9", question: "TEVE CONTATO COM ALGUÉM QUE ESTÁ COM A COVID-19 NOS ÚLTIMOS 14 DIAS?" },
@@ -95,7 +95,7 @@ function Subscribe() {
                 uniqueData.id = cultoId
                 delete uniqueData._id
 
-                if (!uniqueData.idadeMin) uniqueData.idadeMin = 12
+                if (!uniqueData.idadeMin) uniqueData.idadeMin = 7
                 if (!uniqueData.idadeMax) uniqueData.idadeMax = 200
 
                 setCulto(uniqueData)
@@ -314,7 +314,7 @@ function Subscribe() {
     function habiliteQuestions(dtNascimento: string) {
         const idade = calcIdade(new Date(dtNascimento), new Date(Date.now()))
 
-        if (!(idade >= (culto?.idadeMin || 12) && idade < (culto?.idadeMax || 200))) {
+        if (!(idade >= (culto?.idadeMin || 7) && idade < (culto?.idadeMax || 200))) {
             OpenModal(
                 'Solicitação Rejeitada',
                 'Sua solicitação foi rejeitada devido a sua idade, continue assistindo nossos cultos em www.youtube.com.br/c/igrejabatistariopequeno',

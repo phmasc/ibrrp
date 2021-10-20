@@ -1,9 +1,7 @@
 export const diretrizes = `
-- Pessoas menores de 7 anos não poderão participar dos cultos presenciais. Por favor, não insista!
-- Escolha o culto que deseja participar e clique no link de inscrição.
- - Você só poderá estar inscrito em um culto, assim, mais membros poderão participar. Após passar esse culto, poderá se inscrever para outro que tiver vagas
+- Pessoas menores de 7 anos não precisam ser cadastradas, mas sentarão juntamente com a família.
+- Você pode se inscrever para todos os cultos. só clicar no que deseja se inscrever.
  - Preencha o formulário com seus dados pessoais.
- - Responda ao questionário sobre sua saúde. Seja honesto(a) ao responder as perguntas.
  - Aguarde a confirmação na tela.
  - No dia do evento, sua inscrição será confirmada na entrada da igreja.
  - Evite abraços, beijos e apertos de mão. Adote um comportamento amigável sem contato físico, mas sempre com um sorriso no rosto.

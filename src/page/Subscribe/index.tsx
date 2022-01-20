@@ -59,15 +59,15 @@ function Subscribe() {
     ];
 
     const perguntas: any = [
-        { id: "1", question: "VOCÊ TEVE FEBRE NOS ÚLTIMOS 14 DIAS?" },
-        { id: "2", question: "VOCÊ TEVE TOSSE NOS ÚLTIMOS 14 DIAS?" },
-        { id: "3", question: "VOCÊ APRESENTOU CORIZA NOS ÚLTIMOS 14 DIAS?" },
-        { id: "4", question: "VOCÊ APRESENTOU DIARREIA E VÔMITO NAS ÚLTIMAS DUAS SEMANAS?" },
+        { id: "1", question: "VOCÊ TEVE FEBRE NOS ÚLTIMOS 7 DIAS?" },
+        { id: "2", question: "VOCÊ TEVE TOSSE NOS ÚLTIMOS 7 DIAS?" },
+        { id: "3", question: "VOCÊ APRESENTOU CORIZA NOS ÚLTIMOS 7 DIAS?" },
+        { id: "4", question: "VOCÊ APRESENTOU DIARREIA E VÔMITO NAS ÚLTIMAS SEMANAS?" },
         { id: "5", question: "VOCÊ TRABALHA NA LINHA DE FRENTE DO ENFRENTAMENTO DO COVID-19 (CORONAVÍRUS)? " },
-        { id: "6", question: "VOCÊ TEM MENOS DE 7 ANOS?" },
+        { id: "6", question: "VOCÊ TEM MENOS DE 10 ANOS?" },
         { id: "7", question: "VOCÊ ESTÁ COM A COVID-19 (CORONAVÍRUS)?" },
         { id: "8", question: "ALGUÉM DE SUA FAMÍLIA ESTÁ COM O COVID-19 (CORONAVÍRUS)?" },
-        { id: "9", question: "TEVE CONTATO COM ALGUÉM QUE ESTÁ COM A COVID-19 NOS ÚLTIMOS 14 DIAS?" },
+        { id: "9", question: "TEVE CONTATO COM ALGUÉM QUE ESTÁ COM A COVID-19 NOS ÚLTIMOS 7 DIAS?" },
         { id: "10", question: "ESTÁ CIENTE QUE CASO ALGUMA DAS PERGUNTAS ACIMA SEJA RESPONDIDA POSITIVAMENTE VOCÊ NÃO PODERÁ TER ACESSO AOS CULTOS PRESENCIAS?" }
         // { id: "5", question: "5 - VOCÊ TEVE ALGUM OUTRO SINTOMA FORA DE SUA ROTINA NAS ÚLTIMAS DUAS SEMANAS?" },
         // { id: "6", question: "6 - VOCÊ FAZ PARTE DE GRUPO DE RISCO? (Diabetes, Hipertensão, Problemas Cardiológicos, Gestante, entre outros)" },

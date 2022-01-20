@@ -1,5 +1,5 @@
 export const diretrizes = `
-- Pessoas menores de 7 anos não precisam ser cadastradas, mas sentarão juntamente com a família.
+- Pessoas menores de 10 anos não podem participar dos cultos.
 - Você pode se inscrever para todos os cultos. só clicar no que deseja se inscrever.
  - Preencha o formulário com seus dados pessoais.
  - Aguarde a confirmação na tela.
